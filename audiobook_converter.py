@@ -10,6 +10,7 @@ def text_to_speech(text, filename):
     tts = gTTS(text=text, lang='en', tld='com.mx')
     tts.save(filename)
 
+api_key = os.getenv('OPENAI_API_KEY')
 
 # Set up the Streamlit app
 st.title("Book Summary to Audio Converter")
@@ -18,7 +19,8 @@ st.title("Book Summary to Audio Converter")
 book_name = st.text_input("Enter the name of the book:")
 word_size = st.slider("Select the word size required:", min_value=50, max_value=500, step=25)
 
-st.write(api_key)
+# st.write(api_key)
+
 # Create a button to generate the audio file
 if st.button("Generate Audio"):
     if api_key:
@@ -35,7 +37,7 @@ if st.button("Generate Audio"):
             "temperature": 1,
         }
         response = requests.post(url, headers=headers, json=data)
-        st.write(response.json())
+        # st.write(response.json())
         summary = response.json()["choices"][0]["text"]
 
         summary = summary.replace('"', '')
